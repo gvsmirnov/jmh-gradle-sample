@@ -1,0 +1,61 @@
+apply plugin: 'java'
+
+group = 'ru.gvsmirnov'
+version = '0.0.1'
+
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:0.8'
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+sourceSets {
+    perf
+}
+
+dependencies {
+    compile 'org.openjdk.jmh:jmh-core:0.4.2' //FIXME: teach Shadow to use custom configurations
+    perfCompile 'org.openjdk.jmh:jmh-core:0.4.2'
+    perfCompile sourceSets.main.output
+}
+
+apply plugin: "idea"
+idea {
+    module {
+        scopes.PROVIDED.plus += configurations.perfCompile
+    }
+}
+
+//TODO: add eclipse support
+
+task perfJar(type: Jar, dependsOn: perfClasses) {
+    from sourceSets.perf.output + sourceSets.main.output
+}
+
+task benchmarks(dependsOn: perfJar) {
+
+    apply plugin: "shadow"
+
+    shadow {
+        classifier = "benchmarks"
+
+        transformer(com.github.jengelman.gradle.plugins.shadow.transformers.ManifestResourceTransformer) {
+            mainClass = "org.openjdk.jmh.Main"
+        }
+    }
+
+    doLast {
+        shadowJar.execute()
+    }
+
+}
