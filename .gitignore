@@ -1,9 +1,12 @@
 *.class
+
 .gradle
 build
 jmh.out
+.idea
 
-# Package Files #
+*.iml
+*.ipr
 *.jar
 *.war
 *.ear
