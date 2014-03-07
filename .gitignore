@@ -1,4 +1,7 @@
 *.class
+.gradle
+build
+jmh.out
 
 # Package Files #
 *.jar
