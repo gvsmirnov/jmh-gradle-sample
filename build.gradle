@@ -21,6 +21,7 @@ buildscript {
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 
@@ -34,7 +35,8 @@ sourceSets {
 
 dependencies {
     compile 'org.uncommons:uncommons-maths:1.2'
-    perfCompile 'org.openjdk.jmh:jmh-core:0.4.2'
+    perfCompile 'org.openjdk.jmh:jmh-core:0.5.3'
+    perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:0.5.3'
     perfCompile sourceSets.main.output
 }
 
