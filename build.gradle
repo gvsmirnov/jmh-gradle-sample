@@ -8,10 +8,21 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 
 buildscript {
     repositories {
+        // TODO: shadow:0.9-SNAPSHOT is not yet published
+        flatDir {
+            dirs '/Users/gvsmirnov/sources/shadow/build/libs/'
+        }
         jcenter()
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:0.8'
+        // Support for includeDependenciesFor
+        classpath 'com.github.jengelman.gradle.plugins:shadow:0.9-SNAPSHOT'
+
+        // TODO: The following is here because 0.9-SNAPSHOT is taken from a local jar file, and has no dependency info
+        classpath gradleApi()
+        classpath 'jdom:jdom:1.1'
+        classpath 'asm:asm-commons:3.3.1'
+        classpath 'asm:asm:3.3.1'
     }
 }
 
@@ -24,7 +35,6 @@ sourceSets {
 }
 
 dependencies {
-    compile 'org.openjdk.jmh:jmh-core:0.4.2' //FIXME: teach Shadow to use custom configurations
     perfCompile 'org.openjdk.jmh:jmh-core:0.4.2'
     perfCompile sourceSets.main.output
 }
@@ -48,6 +58,7 @@ task benchmarks(dependsOn: perfJar) {
 
     shadow {
         classifier = "benchmarks"
+        includeDependenciesFor = ["runtime", "perfRuntime"]
 
         transformer(com.github.jengelman.gradle.plugins.shadow.transformers.ManifestResourceTransformer) {
             mainClass = "org.openjdk.jmh.Main"
