@@ -3,6 +3,7 @@ package sample;
 import org.openjdk.jmh.annotations.GenerateMicroBenchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+import org.uncommons.maths.Maths;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -21,18 +22,28 @@ public class SampleBenchmark {
     }
 
     @GenerateMicroBenchmark
-     public double measureBaseline(Point p) {
+     public double measureHypot_baseline(Point p) {
         return Math.sqrt(p.a * p.a + p.b * p.b);
     }
 
     @GenerateMicroBenchmark
-    public double measureDirect(Point p) {
+    public double measureHypot_direct(Point p) {
         return Math.hypot(p.a, p.b);
     }
 
     @GenerateMicroBenchmark
-    public double measureSample(Point p) {
+    public double measureHypot_wrapped(Point p) {
         return SampleClass.foo(p.a, p.b);
+    }
+
+    @GenerateMicroBenchmark
+    public double measureLog_direct(Point p) {
+        return Maths.log(p.a, p.b);
+    }
+
+    @GenerateMicroBenchmark
+    public double measureLog_wrapped(Point p) {
+        return SampleClass.bar(p.a, p.b);
     }
 
 }
