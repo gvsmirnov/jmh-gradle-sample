@@ -24,11 +24,6 @@ repositories {
     mavenCentral()
 }
 
-
-configurations {
-    perfCompile.extendsFrom compile;
-}
-
 sourceSets {
     perf
 }
@@ -37,13 +32,15 @@ dependencies {
     compile 'org.uncommons:uncommons-maths:1.2'
     perfCompile 'org.openjdk.jmh:jmh-core:0.5.3'
     perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:0.5.3'
-    perfCompile sourceSets.main.output
+
+    perfCompile project
 }
 
 apply plugin: "idea"
 idea {
     module {
-        scopes.PROVIDED.plus += configurations.perfCompile
+        scopes.PROVIDED.plus  += configurations.perfCompile
+        scopes.PROVIDED.minus += configurations.compile
     }
 }
 
