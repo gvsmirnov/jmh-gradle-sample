@@ -1,4 +1,4 @@
-## Sample Gradle Config for JMH [![Build Status](https://travis-ci.org/gvsmirnov/jmh-gradle-sample.png?branch=master)](https://travis-ci.org/gvsmirnov/jmh-gradle-sample)
+## Sample Gradle Config for JMH [![Build Status](https://travis-ci.org/gvsmirnov/jmh-gradle-sample.svg?branch=master)](https://travis-ci.org/gvsmirnov/jmh-gradle-sample)
 
 Performance tests, just like unit tests, should be kept apart from the real code.
 Here's a sample of how this can be done with [gradle](http://gradle.org) and
