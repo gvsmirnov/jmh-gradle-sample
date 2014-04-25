@@ -3,8 +3,7 @@ apply plugin: 'java'
 group = 'ru.gvsmirnov'
 version = '0.0.1'
 
-
-sourceCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 buildscript {
     repositories {
@@ -30,10 +29,15 @@ sourceSets {
 
 dependencies {
     compile 'org.uncommons:uncommons-maths:1.2'
-    perfCompile 'org.openjdk.jmh:jmh-core:0.5.3'
-    perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:0.5.3'
 
     perfCompile project
+
+    perfCompile 'org.openjdk.jmh:jmh-core:0.6'
+    perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:0.6'
+
+    perfCompile 'com.fasterxml.jackson.core:jackson-core:2.3.2'
+    perfCompile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+
 }
 
 apply plugin: "idea"
