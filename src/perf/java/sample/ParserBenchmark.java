@@ -4,18 +4,18 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.logic.BlackHole;
+import org.openjdk.jmh.infra.Blackhole;
 
 import java.io.IOException;
 
 public class ParserBenchmark {
 
-    @GenerateMicroBenchmark
-    public void measureBaseline(Json json, BlackHole bh) {
+    @Benchmark
+    public void measureBaseline(Json json, Blackhole bh) {
         json.text.chars().forEach(bh::consume);
     }
 
-    @GenerateMicroBenchmark
+    @Benchmark
     public void measureSax_pre_check(Json json) throws IOException {
         json.parser.nextToken();
         JsonToken token;
@@ -28,7 +28,7 @@ public class ParserBenchmark {
         }
     }
 
-    @GenerateMicroBenchmark
+    @Benchmark
     public void measureSax_post_check(Json json) throws IOException {
         json.parser.nextToken();
         JsonToken token;

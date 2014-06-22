@@ -7,14 +7,10 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 
 buildscript {
     repositories {
-        maven {
-            name 'Shadow'
-            url 'http://dl.bintray.com/content/gvsmirnov/gradle-plugins'
-        }
         jcenter()
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:0.8.1'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:0.9.0-M3'
     }
 }
 
@@ -32,8 +28,8 @@ dependencies {
 
     perfCompile project
 
-    perfCompile 'org.openjdk.jmh:jmh-core:0.6'
-    perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:0.6'
+    perfCompile 'org.openjdk.jmh:jmh-core:0.9'
+    perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:0.9'
 
     perfCompile 'com.fasterxml.jackson.core:jackson-core:2.3.2'
     perfCompile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
@@ -55,20 +51,19 @@ eclipse {
     }
 }
 
-task perfJar(type: Jar, dependsOn: perfClasses) {
-    from sourceSets.perf.output + sourceSets.main.output
-}
+task benchmarks(dependsOn: perfClasses) {
 
-task benchmarks(dependsOn: perfJar) {
+    apply plugin: 'com.github.johnrengelman.shadow'
 
-    apply plugin: "shadow"
-
-    shadow {
+    shadowJar {
         classifier = "benchmarks"
-        includeDependenciesFor = ["runtime", "perfRuntime"]
 
-        transformer(com.github.jengelman.gradle.plugins.shadow.transformers.ManifestResourceTransformer) {
-            mainClass = "org.openjdk.jmh.Main"
+        from sourceSets.perf.output
+        from sourceSets.main.output
+        from project.configurations.perfRuntime
+
+        appendManifest {
+            attributes "Main-Class": "org.openjdk.jmh.Main"
         }
     }
 
@@ -79,5 +74,5 @@ task benchmarks(dependsOn: perfJar) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
+    gradleVersion = '1.12'
 }
