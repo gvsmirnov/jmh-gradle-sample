@@ -11,5 +11,8 @@ Usage:
 ```
 $ gradle benchmarks
 
-$ java -jar build/distributions/jmh-gradle-sample-0.0.1-benchmarks.jar
+$ java -jar build/libs/jmh-gradle-sample-0.0.1-benchmarks.jar
 ```
+
+**UPDATE**: There's now a specialized
+[jmh plugin for gradle](https://github.com/melix/jmh-gradle-plugin)
